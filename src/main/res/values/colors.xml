@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="colorPrimary">#3F51B5</color>
+	<color name="colorPrimaryDark">#303F9F</color>
+	<color name="colorAccent">#FF4081</color>
+	<color name="seashell">#FFF5EE</color><!--海贝色 -->
+	<color name="lightsalmon">#FFA07A</color><!--亮肉色 -->
+	<color name="silver">#C0C0C0</color><!--银色 -->
+	<color name="paleturquoise">#AFEEEE</color><!--苍宝石绿 -->
+	<color name="palegreen">#98FB98</color><!--苍绿色 -->
+	<color name="teal">#008080</color><!--水鸭色 -->
+</resources>
