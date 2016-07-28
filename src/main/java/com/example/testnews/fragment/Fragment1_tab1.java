@@ -101,7 +101,7 @@ public class Fragment1_tab1 extends Fragment {
         @Override
         protected void onPostExecute(List<News> newses) {
             super.onPostExecute(newses);
-            NewsAdapter adapter = new NewsAdapter(getActivity(), R.layout.news_itemlayout, listNews);
+            NewsAdapter adapter = new NewsAdapter(getActivity(), R.layout.news_itemlayout, listNews,listView);
             listView.setAdapter(adapter);
 
 
