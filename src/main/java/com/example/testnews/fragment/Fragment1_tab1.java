@@ -1,5 +1,6 @@
 package com.example.testnews.fragment;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,12 +11,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.testnews.R;
 import com.example.testnews.Util.HttpUtil;
 import com.example.testnews.Util.OnBackCall;
+import com.example.testnews.activity.ContentActivity;
 import com.example.testnews.adapter.NewsAdapter;
 import com.example.testnews.model.JsonBean;
 import com.example.testnews.model.News;
@@ -38,15 +41,12 @@ import java.util.List;
  * Created by Administrator on 2016/7/27.
  */
 
-public class Fragment1_tab1 extends Fragment {
+public class Fragment1_tab1 extends Fragment implements AdapterView.OnItemClickListener{
 
     private ListView listView;
-    private String[] strings = {"titii", "fdsfdsfd", "ueriyewur"};
-    private List<String> titles = new ArrayList<String>();
-    private List<String> author = new ArrayList<String>();
-    private List<String> imageUrl = new ArrayList<String>();
 
-    private String address = "http://v.juhe.cn/toutiao/index?type=&key=7ad184618a826f348b4715d42b833053";
+
+    private String address = "http://v.juhe.cn/toutiao/index?type=guoji&key=7ad184618a826f348b4715d42b833053";
     private List<News> listNews;
 
     //在onActivityCreated中执行newsAsyncTask
@@ -63,6 +63,7 @@ public class Fragment1_tab1 extends Fragment {
 
         listView = (ListView) view.findViewById(R.id.news_listview);
 
+        listView.setOnItemClickListener(this);
 
         return view;
 
@@ -108,5 +109,15 @@ public class Fragment1_tab1 extends Fragment {
         }
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+        String url=listNews.get(i).getUrl();
+        Intent intent=new Intent(getActivity(), ContentActivity.class);
+        intent.putExtra("URL",url);
+        startActivity(intent);
+
+
+    }
 
 }

@@ -11,7 +11,7 @@ public class News {
     private String date;
     private String author_name;
     private String thumbnail_pic_s;
-    private String thumbnail_pic_s02;
+
     private String thumbnail_pic_s03;
     private String url;
     private String uniquekey;
@@ -43,13 +43,7 @@ public class News {
         this.realtype = realtype;
     }
 
-    public String getThumbnail_pic_s02() {
-        return thumbnail_pic_s02;
-    }
 
-    public void setThumbnail_pic_s02(String thumbnail_pic_s02) {
-        this.thumbnail_pic_s02 = thumbnail_pic_s02;
-    }
 
     public String getThumbnail_pic_s03() {
         return thumbnail_pic_s03;

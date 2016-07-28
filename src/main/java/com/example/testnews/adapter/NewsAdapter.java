@@ -41,6 +41,7 @@ public class NewsAdapter extends ArrayAdapter<News> implements AbsListView.OnScr
 
 
 
+
     public NewsAdapter(Context context, int resource, List<News> objects, ListView listView) {
         super(context, resource, objects);
 
@@ -52,6 +53,7 @@ public class NewsAdapter extends ArrayAdapter<News> implements AbsListView.OnScr
         for (int i = 0; i < objects.size(); i++) {
             imageURLS[i]=objects.get(i).getThumbnail_pic_s();
         }
+        //对listview设置监听器
         listView.setOnScrollListener(this);
     }
 

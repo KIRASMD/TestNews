@@ -41,7 +41,7 @@ public class FragmentMain1 extends Fragment {
         listFragment.add(tab2);
         listFragment.add(tab3);
 
-        listTitle.add("头条");
+        listTitle.add("国际");
         listTitle.add("体育");
         listTitle.add("娱乐");
         tabLayout=(TabLayout)view.findViewById(R.id.fragmain1_tablayout);
