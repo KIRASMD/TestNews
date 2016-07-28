@@ -3,9 +3,10 @@
 			  android:orientation="vertical"
 			  android:layout_width="match_parent"
 			  android:layout_height="match_parent">
-	<TextView
+	<ListView
+		android:id="@+id/news_listview"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:text="fdsfds"/>
-
+		android:divider="@color/silver"
+		android:dividerHeight="3dp"></ListView>
 </LinearLayout>

@@ -71,7 +71,7 @@ public class FragmentMain1 extends Fragment {
             }
         };
 
-        viewPager.
+
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabsFromPagerAdapter(adapter);
