@@ -33,6 +33,7 @@ public class Fragment1_tab1 extends Fragment implements AdapterView.OnItemClickL
 
     private ListView listView;
 
+    private List<News> listNews;
     private String address = "http://v.juhe.cn/toutiao/index?type=guoji&key=7ad184618a826f348b4715d42b833053";
 
 
@@ -61,6 +62,11 @@ public class Fragment1_tab1 extends Fragment implements AdapterView.OnItemClickL
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+        News news=listNews.get(i);
+        Intent intent=new Intent(getActivity(),ContentActivity.class);
+        intent.putExtra("URL",news.getUrl());
+        startActivity(intent);
+
     }
 
     class AsyncTaskForNewsGet extends AsyncTask<String,Void,List<News>> {
@@ -71,7 +77,8 @@ public class Fragment1_tab1 extends Fragment implements AdapterView.OnItemClickL
         protected List<News> doInBackground(String... strings) {
 
             String response = httpUtil.getHttpResponseData(strings[0]);
-            return httpUtil.getJsonData(response);
+            listNews=httpUtil.getJsonData(response);
+            return listNews;
 
         }
 

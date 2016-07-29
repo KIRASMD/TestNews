@@ -29,7 +29,7 @@ import java.util.List;
 public class Fragment1_tab3 extends Fragment implements AdapterView.OnItemClickListener{
     private ListView listView;
     private String address = "http://v.juhe.cn/toutiao/index?type=yule&key=7ad184618a826f348b4715d42b833053";
-
+    private List<News> listNews;
 
 @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -45,6 +45,7 @@ public class Fragment1_tab3 extends Fragment implements AdapterView.OnItemClickL
 
         listView = (ListView) view.findViewById(R.id.news_listview3);
 
+        listView.setOnItemClickListener(this);
 
         return view;
 
@@ -53,7 +54,10 @@ public class Fragment1_tab3 extends Fragment implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+        News news=listNews.get(i);
+        Intent intent=new Intent(getActivity(),ContentActivity.class);
+        intent.putExtra("URL",news.getUrl());
+        startActivity(intent);
     }
 
     class AsyncTaskForNewsGet extends AsyncTask<String,Void,List<News>> {
@@ -64,7 +68,9 @@ public class Fragment1_tab3 extends Fragment implements AdapterView.OnItemClickL
         protected List<News> doInBackground(String... strings) {
 
             String response = httpUtil.getHttpResponseData(strings[0]);
-            return httpUtil.getJsonData(response);
+            listNews=httpUtil.getJsonData(response);
+            return listNews;
+
 
         }
 

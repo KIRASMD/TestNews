@@ -45,6 +45,7 @@ public class Fragment1_tab2 extends Fragment implements AdapterView.OnItemClickL
         View view = inflater.inflate(R.layout.fragment1_tab2, container, false);
 
         listView = (ListView) view.findViewById(R.id.news_listview_2);
+        listView.setOnItemClickListener(this);
 
 
         return view;
@@ -55,7 +56,10 @@ public class Fragment1_tab2 extends Fragment implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+        News news=listNews.get(i);
+        Intent intent=new Intent(getActivity(),ContentActivity.class);
+        intent.putExtra("URL",news.getUrl());
+        startActivity(intent);
     }
     class AsyncTaskForNewsGet extends AsyncTask<String,Void,List<News>> {
 
@@ -65,8 +69,8 @@ public class Fragment1_tab2 extends Fragment implements AdapterView.OnItemClickL
         protected List<News> doInBackground(String... strings) {
 
             String response = httpUtil.getHttpResponseData(strings[0]);
-            return httpUtil.getJsonData(response);
-
+            listNews=httpUtil.getJsonData(response);
+            return listNews;
         }
 
         @Override
