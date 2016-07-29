@@ -14,7 +14,6 @@ import android.widget.ListView;
 import com.example.testnews.R;
 import com.example.testnews.Util.HttpUtil;
 import com.example.testnews.activity.ContentActivity;
-import com.example.testnews.activity.MainActivity;
 import com.example.testnews.adapter.NewsAdapter;
 import com.example.testnews.model.JsonBean;
 import com.example.testnews.model.News;
@@ -37,7 +36,8 @@ public class Fragment1_tab2 extends Fragment implements AdapterView.OnItemClickL
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        new NewsAsyncTask().execute(address);
+        new AsyncTaskForNewsGet().execute(address);
+
     }
 
     @Override
@@ -52,54 +52,30 @@ public class Fragment1_tab2 extends Fragment implements AdapterView.OnItemClickL
 
     }
 
-    //将地址传入处理得到Json数据
-    private List<News> getJsonData(String address) {
-
-
-        //通过访问网络得到数据回应
-        String response = new HttpUtil().getHttpResponseData(address);
-
-
-        Gson gson = new Gson();
-        JsonBean jsonBean = gson.fromJson(response, JsonBean.class);
-        NewsBean newsBean = jsonBean.getResult();
-        listNews = newsBean.getData();
-
-
-        return listNews;
-    }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-       String url=listNews.get(i).getUrl();
-        Intent intent=new Intent(getActivity(),ContentActivity.class);
-        intent.putExtra("URL",url);
-        startActivity(intent);
     }
+    class AsyncTaskForNewsGet extends AsyncTask<String,Void,List<News>> {
 
-
-    //网络异步访问功能
-    class NewsAsyncTask extends AsyncTask<String, Void, List<News>> {
+        HttpUtil httpUtil = new HttpUtil();
 
         @Override
         protected List<News> doInBackground(String... strings) {
 
+            String response = httpUtil.getHttpResponseData(strings[0]);
+            return httpUtil.getJsonData(response);
 
-            return getJsonData(strings[0]);
         }
 
         @Override
         protected void onPostExecute(List<News> newses) {
             super.onPostExecute(newses);
-            NewsAdapter adapter;
-
-            adapter = new NewsAdapter(getActivity(), R.layout.news_itemlayout, listNews,listView);
+            NewsAdapter adapter=new NewsAdapter(getContext(),R.layout.news_itemlayout, newses);
 
             listView.setAdapter(adapter);
 
-
         }
     }
-
 }
