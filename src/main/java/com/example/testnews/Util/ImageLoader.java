@@ -2,7 +2,6 @@ package com.example.testnews.Util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.util.LruCache;
 import android.widget.ImageView;
@@ -45,7 +44,7 @@ public class ImageLoader {
 
     private void addBitmapToCache(String imageUrl, Bitmap bitmap) {
 
-        if (getBitmapFromCache(imageUrl) == null) {
+        if (getBitmapFromCache(imageUrl) == null&&imageUrl!=null&&bitmap!=null) {
             cache.put(imageUrl, bitmap);
         }
 

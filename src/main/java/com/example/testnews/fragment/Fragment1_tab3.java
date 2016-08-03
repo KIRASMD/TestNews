@@ -9,32 +9,35 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.example.testnews.R;
 import com.example.testnews.Util.HttpUtil;
 import com.example.testnews.activity.ContentActivity;
+import com.example.testnews.adapter.LoadListView;
 import com.example.testnews.adapter.NewsAdapter;
-import com.example.testnews.model.JsonBean;
 import com.example.testnews.model.News;
-import com.example.testnews.model.NewsBean;
-import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/7/27.
  */
 
-public class Fragment1_tab3 extends Fragment implements AdapterView.OnItemClickListener{
-    private ListView listView;
-    private String address = "http://v.juhe.cn/toutiao/index?type=yule&key=7ad184618a826f348b4715d42b833053";
-    private List<News> listNews;
+public class Fragment1_tab3 extends Fragment implements LoadListView.Listinterface,AdapterView.OnItemClickListener,LoadListView.RefreshListener{
 
-@Override
+    private LoadListView listView;
+    private NewsAdapter adapter;
+    public static int currentPage=1;
+    private List<News> listNews=new ArrayList<>();
+    public static int loadcode;//标记是下拉更新还是上拉载入
+
+
+    String address="http://apis.baidu.com/txapi/keji/keji?num=15&page="+currentPage;
+    //在onActivityCreated中执行newsAsyncTask
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         new AsyncTaskForNewsGet().execute(address);
 
     }
@@ -43,15 +46,26 @@ public class Fragment1_tab3 extends Fragment implements AdapterView.OnItemClickL
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment1_tab3, container, false);
 
-        listView = (ListView) view.findViewById(R.id.news_listview3);
-
+        listView = (LoadListView) view.findViewById(R.id.news_listview_3);
         listView.setOnItemClickListener(this);
-
         return view;
-
 
     }
 
+    @Override
+    public void onLoad() {
+        loadcode=0;
+        currentPage=currentPage+1;
+        address="http://apis.baidu.com/txapi/keji/keji?num=15&page="+currentPage;
+        new AsyncTaskForNewsGet().execute(address);
+
+    }
+    @Override
+    public void onRefresh() {
+        loadcode=1;
+        address="http://apis.baidu.com/txapi/keji/keji?num=15&page=1";
+        new AsyncTaskForNewsGet().execute(address);
+    }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         News news=listNews.get(i);
@@ -65,23 +79,37 @@ public class Fragment1_tab3 extends Fragment implements AdapterView.OnItemClickL
         HttpUtil httpUtil = new HttpUtil();
 
         @Override
-        protected List<News> doInBackground(String... strings) {
+        protected List<News> doInBackground(String... strings)
+        {
 
-            String response = httpUtil.getHttpResponseData(strings[0]);
-            listNews=httpUtil.getJsonData(response);
+            String response= httpUtil.getHttpResponseData(address);
+            List<News> newsList=httpUtil.getJsonData(response);
+            if(loadcode==0){
+                listNews.addAll(newsList);
+            }else if(loadcode==1){
+                listNews.clear();
+                listNews.addAll(newsList);
+            }
             return listNews;
-
-
         }
+
 
         @Override
         protected void onPostExecute(List<News> newses) {
             super.onPostExecute(newses);
-            NewsAdapter adapter=new NewsAdapter(getContext(),R.layout.news_itemlayout, newses);
-
-            listView.setAdapter(adapter);
-
+            showListView(newses);
         }
     }
+    private void showListView(List<News> newses){
+        if(adapter==null) {
+            adapter = new NewsAdapter(getActivity(), newses);
+            listView.setListinterface(this);
+            listView.setRefreshListener(this);
+            listView.setAdapter(adapter);
+        }else{
+            adapter.setDataChanged(listNews);
+        }
+    }
+
 
 }

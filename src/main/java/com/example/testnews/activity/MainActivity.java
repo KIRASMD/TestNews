@@ -1,6 +1,5 @@
 package com.example.testnews.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -8,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.testnews.R;
@@ -49,7 +47,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         imageButton1.setOnClickListener(this);
         imageButton2.setOnClickListener(this);
         imageButton3.setOnClickListener(this);
-
+        fragmentMain1 = new FragmentMain1();
+        manager.beginTransaction().add(R.id.main_framelayout, fragmentMain1).commit();
 
     }
 
@@ -73,28 +72,23 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         hideFragment(transaction);
 
-        switch (position){
+        switch (position) {
             case 1:
-                if(fragmentMain1==null){
-                    fragmentMain1=new FragmentMain1();
-                    transaction.add(R.id.main_framelayout,fragmentMain1);
-                }else{
-                    transaction.show(fragmentMain1);
-                }
+                transaction.show(fragmentMain1);
                 break;
             case 2:
-                if(fragmentMain2==null){
-                    fragmentMain2=new FragmentMain2();
-                    transaction.add(R.id.main_framelayout,fragmentMain2);
-                }else{
+                if (fragmentMain2 == null) {
+                    fragmentMain2 = new FragmentMain2();
+                    transaction.add(R.id.main_framelayout, fragmentMain2);
+                } else {
                     transaction.show(fragmentMain2);
                 }
                 break;
             case 3:
-                if(fragmentMain3==null){
-                    fragmentMain3=new FragmentMain3();
-                    transaction.add(R.id.main_framelayout,fragmentMain3);
-                }else{
+                if (fragmentMain3 == null) {
+                    fragmentMain3 = new FragmentMain3();
+                    transaction.add(R.id.main_framelayout, fragmentMain3);
+                } else {
                     transaction.show(fragmentMain3);
                 }
                 break;

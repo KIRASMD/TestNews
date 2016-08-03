@@ -21,29 +21,24 @@ import java.util.List;
 public class NewsAdapter extends BaseAdapter {
 
     private LayoutInflater mInflater;
-    private List<News> mListNews;
-    private int resourceId;
+    private List<News> listNews;
     private ImageLoader imageLoader;
-    public NewsAdapter(Context context, int resourceId, List<News> listNews) {
-        mInflater=LayoutInflater.from(context);
-        mListNews=listNews;
-        this.resourceId=resourceId;
+    public NewsAdapter(Context context,List<News> listNews) {
+        mInflater= LayoutInflater.from(context);
+        this.listNews=listNews;
         imageLoader=new ImageLoader();
 
 
     }
 
-
-
-
     @Override
     public int getCount() {
-        return mListNews.size();
+        return listNews.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return mListNews.get(i);
+        return listNews.get(i);
     }
 
     @Override
@@ -51,18 +46,21 @@ public class NewsAdapter extends BaseAdapter {
         return i;
     }
 
+
+
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
 
         View view = null;
         ViewHolder viewHolder=null;
+        News news=listNews.get(position);
         if (convertView == null) {
-            view=mInflater.inflate(resourceId, null);
+            view=mInflater.inflate(R.layout.news_item_1pic, null);
             viewHolder=new ViewHolder();
 
-            viewHolder.author= (TextView) view.findViewById(R.id.news_item_author);
-            viewHolder.title= (TextView) view.findViewById(R.id.news_item_title);
-            viewHolder.icon= (ImageView) view.findViewById(R.id.news_item_imgview);
+            viewHolder.author= (TextView) view.findViewById(R.id.pic1_author_time);
+            viewHolder.title= (TextView) view.findViewById(R.id.pic1_title);
+            viewHolder.icon= (ImageView) view.findViewById(R.id.pic1_icon);
             view.setTag(viewHolder);
 
         }else{
@@ -70,19 +68,27 @@ public class NewsAdapter extends BaseAdapter {
             viewHolder= (ViewHolder) convertView.getTag();
         }
 
-        String imageUrl=mListNews.get(position).getThumbnail_pic_s();
+        String imageUrl=news.getPicUrl();
         viewHolder.icon.setImageResource(R.mipmap.ic_launcher);
 
         viewHolder.icon.setTag(imageUrl);
         imageLoader.showImage(viewHolder.icon,imageUrl);
 
-        viewHolder.title.setText(mListNews.get(position).getTitle());
-        viewHolder.author.setText(mListNews.get(position).getAuthor_name());
+        viewHolder.title.setText(news.getTitle());
+        viewHolder.author.setText(news.getDescription()+" "+news.getCtime());
 
 
         return view;
 
     }
+
+    public void setDataChanged(List<News> listNews) {
+
+        this.listNews=listNews;
+        this.notifyDataSetChanged();
+    }
+
+
     class ViewHolder{
         ImageView icon;
         TextView title,author;

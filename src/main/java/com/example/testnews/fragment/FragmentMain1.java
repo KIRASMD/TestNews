@@ -41,9 +41,9 @@ public class FragmentMain1 extends Fragment {
         listFragment.add(tab2);
         listFragment.add(tab3);
 
-        listTitle.add("国际");
         listTitle.add("体育");
-        listTitle.add("娱乐");
+        listTitle.add("国际");
+        listTitle.add("科技");
         tabLayout=(TabLayout)view.findViewById(R.id.fragmain1_tablayout);
         viewPager=(ViewPager)view.findViewById(R.id.fragmain1_viewpager);
 
@@ -71,7 +71,7 @@ public class FragmentMain1 extends Fragment {
             }
         };
 
-
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabsFromPagerAdapter(adapter);

@@ -3,10 +3,10 @@
 			  android:orientation="vertical"
 			  android:layout_width="match_parent"
 			  android:layout_height="match_parent">
-	<ListView
+	<com.example.testnews.adapter.LoadListView
 		android:id="@+id/news_listview"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:divider="@color/silver"
-		android:dividerHeight="3dp"></ListView>
+		android:dividerHeight="3dp"></com.example.testnews.adapter.LoadListView>
 </LinearLayout>

@@ -1,20 +1,15 @@
 package com.example.testnews.Util;
 
-import android.util.Log;
-
-import com.example.testnews.model.JsonBean;
+import com.example.testnews.model.JsonNews;
 import com.example.testnews.model.News;
-import com.example.testnews.model.NewsBean;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,7 +28,7 @@ public class HttpUtil {
             connection.setRequestMethod("GET");
             connection.setReadTimeout(8000);
             connection.setReadTimeout(8000);
-
+            connection.setRequestProperty("apikey",  "75483408937232d187594475c3132533");
             InputStream is = connection.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(is, "utf-8"));
             result = new StringBuilder();
@@ -48,20 +43,18 @@ public class HttpUtil {
             e.printStackTrace();
         }
 
+//        Log.d("ll", "getHttpResponseData: "+result.toString());
         return result.toString();
 
     }
 
     public List<News> getJsonData(String response) {
-
+        List<News> newsList=new ArrayList<>();
         Gson gson = new Gson();
-        JsonBean jsonBean = gson.fromJson(response, JsonBean.class);
-        NewsBean newsBean = jsonBean.getResult();
-        List<News> listNews = newsBean.getData();
+        JsonNews jsonNews=gson.fromJson(response,JsonNews.class);
+        newsList=jsonNews.getNewslist();
 
-        Log.d("dd", listNews.get(0).getTitle());
-
-        return listNews;
+        return newsList;
 
     }
 

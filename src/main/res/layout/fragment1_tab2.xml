@@ -4,9 +4,9 @@
 			  android:layout_width="match_parent"
 			  android:layout_height="match_parent">
 
-	<ListView
+	<com.example.testnews.adapter.LoadListView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:id="@+id/news_listview_2"
-		></ListView>
+		></com.example.testnews.adapter.LoadListView>
 </LinearLayout>
